@@ -3,9 +3,9 @@ import { MessageCircle } from 'lucide-react';
 import { config } from '../data/config';
 
 // Import local assets from src/assets/products/
-import p1Image from '../assets/products/P1.jpeg';
-import p2Image from '../assets/products/P2.jpeg';
-import p3Video from '../assets/products/P3.mp4';
+import p1Image from "../assets/Products/P1.jpeg";
+import p2Image from "../assets/Products/P2.jpeg";
+import p3Video from "../assets/Products/P3.mp4";
 
 export default function AvailableEquipment() {
   // Prefilled WhatsApp link
@@ -41,7 +41,7 @@ export default function AvailableEquipment() {
 
         {/* Banners & Video Stack (Stacked Vertically, Full Width, h-auto, object-contain, no cropping) */}
         <div className="flex flex-col gap-8 md:gap-12 mb-16">
-          
+
           {/* Banner 1 */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
