@@ -1,7 +1,56 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { Phone, MessageCircle, Wrench, Shield, Zap } from 'lucide-react';
 import { config } from '../data/config';
+import Strands from './Strands';
+
+function MagneticButton({ children, className, href, target, rel, ...props }) {
+  const ref = useRef(null);
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const shouldReduceMotion = useReducedMotion();
+
+  const handleMouseMove = (e) => {
+    if (window.innerWidth < 1024 || shouldReduceMotion) return;
+
+    const bounding = ref.current.getBoundingClientRect();
+    const x = e.clientX - (bounding.left + bounding.width / 2);
+    const y = e.clientY - (bounding.top + bounding.height / 2);
+    const limit = 15;
+    const factor = 0.35;
+    
+    let targetX = x * factor;
+    let targetY = y * factor;
+
+    const dist = Math.sqrt(targetX * targetX + targetY * targetY);
+    if (dist > limit) {
+      targetX = (targetX / dist) * limit;
+      targetY = (targetY / dist) * limit;
+    }
+
+    setPosition({ x: targetX, y: targetY });
+  };
+
+  const handleMouseLeave = () => {
+    setPosition({ x: 0, y: 0 });
+  };
+
+  return (
+    <motion.a
+      ref={ref}
+      href={href}
+      target={target}
+      rel={rel}
+      className={className}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      animate={{ x: position.x, y: position.y }}
+      transition={{ type: 'spring', stiffness: 120, damping: 15, mass: 0.1 }}
+      {...props}
+    >
+      {children}
+    </motion.a>
+  );
+}
 
 export default function Hero() {
   const formattedPhone = config.company.phone.replace(/[^0-9+]/g, '');
@@ -15,7 +64,7 @@ export default function Hero() {
     const handleResize = () => {
       const isMob = window.innerWidth < 768;
       
-      const count = isMob ? 6 : 14;
+      const count = isMob ? 3 : 6;
       const list = Array.from({ length: count }, (_, idx) => ({
         id: idx,
         size: Math.random() * 3 + 2, // 2px to 5px
@@ -43,7 +92,7 @@ export default function Hero() {
               loop
               playsInline
               preload="metadata"
-              className="w-full h-full object-cover opacity-50 sm:opacity-60"
+              className="w-full h-full object-cover opacity-15 sm:opacity-20 filter brightness-[0.35] contrast-[0.8] saturate-[0.6]"
             >
               <source src={config.heroMedia.src} type="video/mp4" />
             </video>
@@ -51,66 +100,70 @@ export default function Hero() {
             <img
               src={config.heroMedia.src}
               alt="Hero Background Graphic"
-              className="w-full h-full object-cover opacity-35 sm:opacity-45 select-none"
+              className="w-full h-full object-cover opacity-10 sm:opacity-15 filter brightness-[0.25] contrast-[0.8] saturate-[0.5] select-none"
               loading="eager"
             />
           )}
-          {/* Overlay to ensure readability and dark blend (50% opacity) */}
-          <div className="absolute inset-0 bg-slate-950/50" aria-hidden="true"></div>
+          {/* Overlay to ensure readability and dark blend (80% opacity) */}
+          <div className="absolute inset-0 bg-slate-950/80" aria-hidden="true"></div>
         </div>
       )}
 
       {/* Hardware-Accelerated Moving Grid overlay */}
       <div className="absolute -inset-[2rem] w-[calc(100%+4rem)] h-[calc(100%+4rem)] overflow-hidden pointer-events-none z-0">
-        <div className="w-full h-full bg-[linear-gradient(to_right,rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)] animate-grid-move"></div>
+        <div className="w-full h-full bg-[linear-gradient(to_right,rgba(255,255,255,0.01)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.01)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)] animate-grid-move"></div>
       </div>
 
-      {/* Floating Gradient Blobs (Transforms only for visual performance) */}
-      <motion.div
-        className="absolute top-1/4 left-1/4 w-[250px] h-[250px] md:w-[400px] md:h-[400px] bg-orange-600/5 md:bg-orange-600/8 rounded-full blur-[100px] md:blur-[140px] pointer-events-none z-0"
-        animate={shouldReduceMotion ? {} : {
-          x: [-20, 20, -20],
-          y: [-25, 25, -25],
-        }}
-        transition={{
-          duration: 14,
-          repeat: Infinity,
-          ease: 'easeInOut',
-        }}
-      />
-      <motion.div
-        className="absolute bottom-1/4 right-1/4 w-[300px] h-[300px] md:w-[500px] md:h-[500px] bg-blue-600/5 md:bg-blue-600/8 rounded-full blur-[110px] md:blur-[150px] pointer-events-none z-0"
-        animate={shouldReduceMotion ? {} : {
-          x: [25, -25, 25],
-          y: [20, -20, 20],
-        }}
-        transition={{
-          duration: 18,
-          repeat: Infinity,
-          ease: 'easeInOut',
-        }}
-      />
-      <motion.div
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[220px] h-[220px] md:w-[350px] md:h-[350px] bg-amber-500/4 md:bg-amber-500/6 rounded-full blur-[90px] md:blur-[120px] pointer-events-none z-0"
-        animate={shouldReduceMotion ? {} : {
-          scale: [0.9, 1.1, 0.9],
-          opacity: [0.4, 0.7, 0.4],
-        }}
-        transition={{
-          duration: 10,
-          repeat: Infinity,
-          ease: 'easeInOut',
-        }}
-      />
-
       {/* Dynamic Background Gradients */}
-      <div className="absolute top-0 inset-x-0 h-full w-full bg-[radial-gradient(circle_at_center,rgba(30,58,138,0.2)_0%,rgba(15,23,42,0.95)_70%)] pointer-events-none z-0"></div>
+      <div className="absolute top-0 inset-x-0 h-full w-full bg-[radial-gradient(circle_at_center,rgba(30,58,138,0.08)_0%,rgba(15,23,42,0.95)_70%)] pointer-events-none z-0"></div>
+
+      {/* WebGL Strands visual background theme - Thinner, slower, and highly subtle */}
+      {!shouldReduceMotion && (
+        <Strands
+          className="absolute inset-0 w-full h-full pointer-events-none z-0 opacity-15"
+          colors={["#F97316", "#EAB308", "#3B82F6"]}
+          count={3}
+          speed={0.2}
+          amplitude={0.35}
+          waviness={0.4}
+          thickness={0.4}
+          glow={1.2}
+          taper={3.0}
+          spread={1.3}
+          intensity={0.4}
+          saturation={1.2}
+          opacity={0.6}
+          scale={1.25}
+          glass={false}
+        />
+      )}
+
+      {/* Premium Spotlight background effect - Elegant, soft ambient glow centered behind content */}
+      <motion.div
+        className="absolute left-1/2 top-1/2 w-[300px] h-[300px] sm:w-[550px] sm:h-[550px] md:w-[750px] md:h-[750px] rounded-full pointer-events-none z-0"
+        style={{
+          background: 'radial-gradient(circle, rgba(249,115,22,0.08) 0%, rgba(234,179,8,0.04) 40%, rgba(59,130,246,0.03) 70%, transparent 100%)',
+          filter: 'blur(100px)',
+          x: '-50%',
+          y: '-50%'
+        }}
+        animate={shouldReduceMotion ? {} : {
+          x: ['-50%', '-48%', '-52%', '-50%'],
+          y: ['-50%', '-51%', '-49%', '-50%'],
+          scale: [0.97, 1.03, 0.99, 0.97],
+        }}
+        transition={{
+          duration: 30,
+          repeat: Infinity,
+          ease: 'easeInOut',
+        }}
+      />
 
       {/* Subtle Hardware-Accelerated Particles */}
       {!shouldReduceMotion && particles.map((p) => (
         <motion.div
           key={p.id}
-          className="absolute rounded-full bg-orange-500/20 pointer-events-none z-0"
+          className="absolute rounded-full bg-orange-500/10 pointer-events-none z-0"
           style={{
             width: p.size,
             height: p.size,
@@ -184,16 +237,16 @@ export default function Hero() {
           className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6"
         >
           {/* Call Now */}
-          <a
+          <MagneticButton
             href={`tel:${formattedPhone}`}
             className="flex items-center justify-center gap-2.5 w-full sm:w-auto px-8 py-4 rounded-2xl bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-600 hover:to-amber-700 text-white font-bold shadow-2xl shadow-orange-500/20 hover:shadow-orange-500/40 hover:-translate-y-0.5 active:translate-y-0 active:scale-95 transition-all duration-300 group focus:outline-none focus:ring-2 focus:ring-orange-500"
           >
             <Phone className="w-5 h-5 group-hover:animate-bounce" />
             Call Now
-          </a>
+          </MagneticButton>
 
           {/* WhatsApp Now */}
-          <a
+          <MagneticButton
             href={whatsAppUrl}
             target="_blank"
             rel="noopener noreferrer"
@@ -201,7 +254,7 @@ export default function Hero() {
           >
             <MessageCircle className="w-5 h-5 text-emerald-400" />
             WhatsApp Now
-          </a>
+          </MagneticButton>
         </motion.div>
 
         {/* Trust Indicators */}

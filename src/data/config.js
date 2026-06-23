@@ -39,8 +39,7 @@ export const config = {
     links: [
       { label: 'Home', href: '#' },
       { label: 'Services', href: '#services' },
-      { label: 'Gallery', href: '#gallery' },
-      { label: 'Videos', href: '#videos' },
+      { label: 'Our Work', href: '#our-work' },
       { label: 'Contact', href: '#contact' },
       { label: 'Offers', href: '#products' },
     ]
@@ -130,42 +129,42 @@ export const config = {
       id: 4,
       src: electricalWork1,
       title: 'Distribution Board Wiring',
-      category: 'Electrical',
+      category: 'Electrical Services',
       description: 'Main panel switchgear installation, wiring alignment, and electrical safety check.'
     },
     {
       id: 5,
       src: electricalWork2,
       title: 'Circuit Testing & Diagnostics',
-      category: 'Electrical',
+      category: 'Electrical Services',
       description: 'Troubleshooting electrical load distribution and diagnosing breaker issues.'
     },
     {
       id: 6,
       src: electricalWork3,
       title: 'Industrial Electrical Socket Installation',
-      category: 'Electrical',
+      category: 'Electrical Services',
       description: 'High-amperage wall outlet setup for commercial kitchen electrical appliances.'
     },
     {
       id: 7,
       src: laptopRefurbished,
       title: 'Refurbished Business Laptops',
-      category: 'Products',
+      category: 'Computer Services',
       description: 'Quality-tested pre-owned laptops, cleaned and upgraded with fast solid-state drives.'
     },
     {
       id: 8,
       src: monitorRepair,
       title: 'IPS Monitor Panel Calibration',
-      category: 'Repairs',
+      category: 'Computer Services',
       description: 'Hardware calibration and troubleshooting backlight issues on professional display panels.'
     },
     {
       id: 9,
       src: peopleCounterInstallation,
       title: 'People Counting Sensor Installation',
-      category: 'Specialized',
+      category: 'CCTV',
       description: 'Ceiling mount installation of automated pedestrian traffic sensor system.'
     }
   ],
@@ -175,6 +174,7 @@ export const config = {
       src: cctvInstallationVideo,
       poster: cctvInstallation1,
       title: 'Professional CCTV Installation Demo',
+      category: 'CCTV',
       description: 'Watch a step-by-step clip of our security technician mounting and testing a professional surveillance dome camera.',
       duration: '0:35'
     },
@@ -183,6 +183,7 @@ export const config = {
       src: printerWorkingDemoVideo,
       poster: peopleCounterInstallation,
       title: 'Refurbished Printer Performance Run',
+      category: 'Computer Services',
       description: 'Real-time demonstration of a serviced HP LaserJet printer running high-speed duplex test prints.',
       duration: '1:12'
     }
@@ -195,5 +196,21 @@ export const config = {
       { label: 'Data Recovery', href: '#services' },
       { label: 'Printer Repair', href: '#services' },
     ]
-  }
+  },
+  marqueeItems: [
+    { label: 'Computer Repair', icon: 'Monitor', color: 'blue' },
+    { label: 'CCTV Installation', icon: 'Shield', color: 'orange' },
+    { label: 'CCTV Maintenance', icon: 'Activity', color: 'orange' },
+    { label: 'Laptop Repair', icon: 'Laptop', color: 'blue' },
+    { label: 'Printer Repair', icon: 'Printer', color: 'blue' },
+    { label: 'Electrical Services', icon: 'Zap', color: 'amber' },
+    { label: 'Network Setup', icon: 'Network', color: 'blue' },
+    { label: 'UPS Solutions', icon: 'BatteryCharging', color: 'amber' },
+    { label: 'AMC Support', icon: 'Briefcase', color: 'orange' },
+    { label: 'Security Systems', icon: 'Eye', color: 'orange' },
+    { label: 'Data Recovery', icon: 'Database', color: 'blue' },
+    { label: 'Wiring Solutions', icon: 'Cable', color: 'amber' },
+    { label: 'Home Visits Available', icon: 'Home', color: 'emerald' },
+    { label: 'Same Day Service', icon: 'Clock', color: 'emerald' }
+  ]
 };

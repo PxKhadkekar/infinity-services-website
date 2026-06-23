@@ -205,7 +205,7 @@ export default function Footer() {
       {showBackToTop && (
         <button
           onClick={scrollToTop}
-          className="fixed bottom-6 right-6 z-50 p-3.5 rounded-full bg-slate-900 border border-slate-850 hover:border-orange-500/40 text-slate-400 hover:text-orange-400 shadow-2xl active:scale-95 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-orange-500 cursor-pointer flex items-center justify-center"
+          className="fixed right-6 md:right-8 z-50 p-3.5 rounded-full bg-slate-900 border border-slate-850 hover:border-orange-500/40 text-slate-400 hover:text-orange-400 shadow-2xl active:scale-95 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-orange-500 cursor-pointer flex items-center justify-center floating-back-to-top-btn"
           aria-label="Scroll Back to Top"
         >
           <ArrowUp className="w-5 h-5 animate-pulse" aria-hidden="true" />

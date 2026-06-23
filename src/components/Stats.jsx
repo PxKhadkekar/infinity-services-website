@@ -1,28 +1,37 @@
-import { motion } from 'framer-motion';
+import { useEffect, useRef, useState } from 'react';
+import { motion, useInView, animate } from 'framer-motion';
 import { config } from '../data/config';
+import { scrollRevealVariants, staggerContainerVariants } from '../data/animations';
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.15
-    }
-  }
-};
+function AnimatedCounter({ value }) {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: '-50px' });
+  const [count, setCount] = useState(0);
 
-const itemVariants = {
-  hidden: { y: 30, opacity: 0 },
-  visible: {
-    y: 0,
-    opacity: 1,
-    transition: {
-      type: 'spring',
-      stiffness: 80,
-      damping: 15
+  const numMatch = value.match(/\d+/);
+  const target = numMatch ? parseInt(numMatch[0], 10) : 0;
+  const suffix = numMatch ? value.replace(numMatch[0], '') : value;
+
+  useEffect(() => {
+    if (isInView && target > 0) {
+      const controls = animate(0, target, {
+        duration: 1.8,
+        ease: 'easeOut',
+        onUpdate: (latest) => {
+          setCount(Math.floor(latest));
+        },
+      });
+      return () => controls.stop();
     }
-  }
-};
+  }, [isInView, target]);
+
+  return (
+    <span ref={ref}>
+      {target > 0 ? count : value}
+      {target > 0 ? suffix : ''}
+    </span>
+  );
+}
 
 export default function Stats() {
   return (
@@ -32,7 +41,7 @@ export default function Stats() {
 
       <div className="relative z-10 max-w-7xl mx-auto">
         <motion.div
-          variants={containerVariants}
+          variants={staggerContainerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: '-100px' }}
@@ -41,7 +50,7 @@ export default function Stats() {
           {config.stats.map((stat, idx) => (
             <motion.div
               key={idx}
-              variants={itemVariants}
+              variants={scrollRevealVariants}
               className="relative overflow-hidden rounded-2xl bg-slate-900/40 hover:bg-slate-900/60 border border-slate-900 hover:border-slate-800/80 p-6 sm:p-8 backdrop-blur-sm text-center shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 group"
             >
               {/* Decorative side accent */}
@@ -50,7 +59,7 @@ export default function Stats() {
               {/* Stat Value */}
               <div className="text-4xl sm:text-5xl font-black text-white mb-2 tracking-tight group-hover:scale-105 transition-transform duration-300">
                 <span className="bg-gradient-to-r from-orange-400 to-amber-500 bg-clip-text text-transparent">
-                  {stat.value}
+                  <AnimatedCounter value={stat.value} />
                 </span>
               </div>
 

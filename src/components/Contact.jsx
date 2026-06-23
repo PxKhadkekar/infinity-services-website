@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { Phone, MessageCircle, Mail, MapPin, Clock, AlertTriangle, ExternalLink } from 'lucide-react';
 import { config } from '../data/config';
+import { scrollRevealVariants, staggerContainerVariants } from '../data/animations';
 
 export default function Contact() {
   const formattedPhone = config.company.phone.replace(/[^0-9+]/g, '');
@@ -15,50 +16,44 @@ export default function Contact() {
 
       <div className="relative z-10 max-w-7xl mx-auto">
         {/* Section Header */}
-        <div className="text-center max-w-2xl mx-auto mb-16">
+        <motion.div
+          variants={staggerContainerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="text-center max-w-2xl mx-auto mb-16"
+        >
           <motion.p
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
+            variants={scrollRevealVariants}
             className="text-xs sm:text-sm font-bold tracking-widest text-orange-500 uppercase mb-3"
           >
             Contact Us
           </motion.p>
           <motion.h2
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.1 }}
+            variants={scrollRevealVariants}
             className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight"
           >
             Get In Touch
           </motion.h2>
           <motion.p
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            variants={scrollRevealVariants}
             className="text-slate-400 text-sm sm:text-base mt-4 leading-relaxed"
           >
             Need computer, CCTV, electrical repair, installation, or second-hand equipment? Contact us today.
           </motion.p>
           <motion.div
-            initial={{ scaleX: 0 }}
-            whileInView={{ scaleX: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.3 }}
+            variants={scrollRevealVariants}
             className="w-16 h-1 bg-gradient-to-r from-orange-500 to-amber-600 mx-auto mt-5 rounded-full origin-center"
             aria-hidden="true"
           />
-        </div>
+        </motion.div>
 
         {/* Emergency Service Banner */}
         <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          variants={scrollRevealVariants}
+          initial="hidden"
+          whileInView="visible"
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
           className="mb-12 max-w-4xl mx-auto rounded-2xl bg-gradient-to-r from-orange-500/10 via-amber-500/10 to-orange-500/10 border border-orange-500/20 p-5 backdrop-blur-sm shadow-lg shadow-orange-500/5 flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left relative overflow-hidden group"
         >
           {/* Animated side pulse */}
@@ -85,13 +80,16 @@ export default function Contact() {
         </motion.div>
 
         {/* Grid Area */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch max-w-6xl mx-auto">
+        <motion.div
+          variants={staggerContainerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-100px' }}
+          className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch max-w-6xl mx-auto"
+        >
           {/* Left Column: Info & Action Buttons */}
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7 }}
+            variants={scrollRevealVariants}
             className="lg:col-span-6 flex flex-col gap-6"
           >
             {/* Contact Information Card */}
@@ -201,10 +199,7 @@ export default function Contact() {
 
           {/* Right Column: Google Maps Placeholder */}
           <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7 }}
+            variants={scrollRevealVariants}
             className="lg:col-span-6"
           >
             <div className="relative h-full min-h-[350px] lg:min-h-full rounded-3xl bg-slate-900/40 border border-slate-900 overflow-hidden backdrop-blur-sm shadow-xl p-3 flex flex-col">
@@ -240,7 +235,7 @@ export default function Contact() {
               </div>
             </div>
           </motion.div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { MessageCircle } from 'lucide-react';
 import { config } from '../data/config';
+import { scrollRevealVariants, staggerContainerVariants } from '../data/animations';
 
 // Import local assets from src/assets/products/
 import p1Image from "../assets/Products/P1.jpeg";
@@ -20,34 +21,37 @@ export default function AvailableEquipment() {
 
       <div className="relative z-10 max-w-5xl mx-auto">
         {/* Section Header */}
-        <div className="text-center mb-16">
+        <motion.div
+          variants={staggerContainerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="text-center mb-16"
+        >
           <motion.h2
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            variants={scrollRevealVariants}
             className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight"
           >
             Latest Offers & Available Stock
           </motion.h2>
           <motion.div
-            initial={{ scaleX: 0 }}
-            whileInView={{ scaleX: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
+            variants={scrollRevealVariants}
             className="w-16 h-1 bg-gradient-to-r from-orange-500 to-amber-600 mx-auto mt-6 rounded-full origin-center"
           />
-        </div>
+        </motion.div>
 
         {/* Banners & Video Stack (Stacked Vertically, Full Width, h-auto, object-contain, no cropping) */}
-        <div className="flex flex-col gap-8 md:gap-12 mb-16">
+        <motion.div
+          variants={staggerContainerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-100px' }}
+          className="flex flex-col gap-8 md:gap-12 mb-16"
+        >
 
           {/* Banner 1 */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            variants={scrollRevealVariants}
             className="w-full rounded-3xl bg-slate-900/40 border border-slate-900 p-2 md:p-3 backdrop-blur-sm shadow-2xl flex justify-center overflow-hidden"
           >
             <img
@@ -60,10 +64,7 @@ export default function AvailableEquipment() {
 
           {/* Banner 2 */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.15 }}
+            variants={scrollRevealVariants}
             className="w-full rounded-3xl bg-slate-900/40 border border-slate-900 p-2 md:p-3 backdrop-blur-sm shadow-2xl flex justify-center overflow-hidden"
           >
             <img
@@ -76,10 +77,7 @@ export default function AvailableEquipment() {
 
           {/* Video Promo Loop */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.3 }}
+            variants={scrollRevealVariants}
             className="w-full rounded-3xl bg-slate-900/40 border border-slate-900 p-2 md:p-3 shadow-2xl flex justify-center overflow-hidden"
           >
             <video
@@ -94,14 +92,14 @@ export default function AvailableEquipment() {
             />
           </motion.div>
 
-        </div>
+        </motion.div>
 
         {/* WhatsApp Availability CTA */}
         <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          variants={scrollRevealVariants}
+          initial="hidden"
+          whileInView="visible"
           viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.45 }}
           className="text-center"
         >
           <a

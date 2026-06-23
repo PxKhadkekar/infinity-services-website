@@ -35,3 +35,42 @@ a:focus-visible {
     animation: none !important;
   }
 }
+
+/* Floating Action Buttons Positioning */
+.floating-whatsapp-btn {
+  bottom: calc(1.5rem + env(safe-area-inset-bottom)) !important;
+}
+@media (min-width: 768px) {
+  .floating-whatsapp-btn {
+    bottom: calc(2rem + env(safe-area-inset-bottom)) !important;
+  }
+}
+
+.floating-back-to-top-btn {
+  bottom: calc(7rem + env(safe-area-inset-bottom)) !important;
+}
+@media (min-width: 768px) {
+  .floating-back-to-top-btn {
+    bottom: calc(8rem + env(safe-area-inset-bottom)) !important;
+  }
+}
+
+/* Infinite Marquee Keyframe Animations */
+@keyframes marquee {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 25s linear infinite;
+}
+
+@media (min-width: 1024px) {
+  .animate-marquee {
+    animation-duration: 35s; /* Slower on desktop */
+  }
+}

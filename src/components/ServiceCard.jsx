@@ -8,7 +8,37 @@ const iconMap = {
   Package,
 };
 
-export default function ServiceCard({ category, badge, description, iconName, items, imageUrl }) {
+const shadowMap = {
+  'Computer Services': 'hover:shadow-[0_20px_50px_-12px_rgba(59,130,246,0.12)] hover:border-blue-500/20',
+  'Electrical Services': 'hover:shadow-[0_20px_50px_-12px_rgba(234,179,8,0.12)] hover:border-amber-500/20',
+  'Second-Hand Products': 'hover:shadow-[0_20px_50px_-12px_rgba(249,115,22,0.12)] hover:border-orange-500/20',
+};
+
+const borderGlowMap = {
+  'Computer Services': 'via-blue-500/30',
+  'Electrical Services': 'via-amber-500/30',
+  'Second-Hand Products': 'via-orange-500/30',
+};
+
+const badgeMap = {
+  'Computer Services': 'bg-blue-500/10 border-blue-500/20 text-blue-400',
+  'Electrical Services': 'bg-amber-500/10 border-amber-500/20 text-amber-400',
+  'Second-Hand Products': 'bg-orange-500/10 border-orange-500/20 text-orange-400',
+};
+
+const iconColorMap = {
+  'Computer Services': 'text-blue-500 group-hover:from-blue-500 group-hover:to-cyan-600',
+  'Electrical Services': 'text-amber-500 group-hover:from-amber-500 group-hover:to-orange-600',
+  'Second-Hand Products': 'text-orange-500 group-hover:from-orange-500 group-hover:to-amber-600',
+};
+
+const listCheckColorMap = {
+  'Computer Services': 'text-blue-500',
+  'Electrical Services': 'text-amber-500',
+  'Second-Hand Products': 'text-orange-500',
+};
+
+export default function ServiceCard({ category, badge, description, iconName, items, imageUrl, ...props }) {
   const IconComponent = iconMap[iconName] || Monitor;
 
   // Customize WhatsApp prefilled message based on the specific service category
@@ -16,28 +46,26 @@ export default function ServiceCard({ category, badge, description, iconName, it
   const encodedMessage = encodeURIComponent(customMessage);
   const whatsAppUrl = `https://wa.me/${config.company.whatsAppPhone}?text=${encodedMessage}`;
 
+  const categoryShadow = shadowMap[category] || shadowMap['Computer Services'];
+  const categoryBorderGlow = borderGlowMap[category] || borderGlowMap['Computer Services'];
+  const categoryBadge = badgeMap[category] || badgeMap['Computer Services'];
+  const categoryIcon = iconColorMap[category] || iconColorMap['Computer Services'];
+  const categoryListCheck = listCheckColorMap[category] || listCheckColorMap['Computer Services'];
+
   return (
     <motion.div
-      variants={{
-        hidden: { y: 50, opacity: 0 },
-        visible: {
-          y: 0,
-          opacity: 1,
-          transition: {
-            type: 'spring',
-            stiffness: 60,
-            damping: 15,
-          },
-        },
-      }}
-      className="group relative flex flex-col h-full rounded-3xl bg-slate-900/40 hover:bg-slate-900/80 border border-slate-900 hover:border-slate-800/80 p-6 sm:p-8 backdrop-blur-sm shadow-xl hover:shadow-2xl transition-all duration-350 overflow-hidden"
+      {...props}
+      className={`group relative flex flex-col h-full rounded-3xl bg-white/[0.02] hover:bg-white/[0.05] border border-white/[0.05] p-6 sm:p-8 backdrop-blur-xl shadow-xl hover:-translate-y-2 hover:scale-[1.01] transition-all duration-500 ease-out overflow-hidden ${categoryShadow}`}
     >
       {/* Top Border glow effect */}
-      <div className="absolute top-0 inset-x-0 h-[1.5px] bg-gradient-to-r from-transparent via-orange-500/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" aria-hidden="true"></div>
+      <div className={`absolute top-0 inset-x-0 h-[1.5px] bg-gradient-to-r from-transparent ${categoryBorderGlow} to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300`} aria-hidden="true"></div>
+
+      {/* Soft background glow orb inside the glass card */}
+      <div className="absolute -right-16 -top-16 w-32 h-32 rounded-full bg-gradient-to-br from-white/5 to-transparent blur-2xl group-hover:scale-150 transition-transform duration-500 pointer-events-none" aria-hidden="true"></div>
 
       {/* Dynamic service category cover image */}
       {imageUrl && (
-        <div className="relative w-full aspect-[16/10] rounded-2xl overflow-hidden mb-6 border border-slate-850 bg-slate-950 flex-shrink-0">
+        <div className="relative w-full aspect-[16/10] rounded-2xl overflow-hidden mb-6 border border-white/[0.05] bg-slate-950 flex-shrink-0">
           <img
             src={imageUrl}
             alt={category}
@@ -51,10 +79,10 @@ export default function ServiceCard({ category, badge, description, iconName, it
 
       {/* Badge & Icon Row */}
       <div className="flex items-center justify-between mb-6">
-        <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-orange-500/10 border border-orange-500/20 text-orange-400">
+        <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold border ${categoryBadge}`}>
           {badge}
         </span>
-        <div className="p-3 rounded-2xl bg-slate-950 border border-slate-850 text-orange-500 group-hover:bg-gradient-to-br group-hover:from-orange-500 group-hover:to-amber-600 group-hover:text-white group-hover:border-transparent group-hover:scale-110 transition-all duration-300" aria-hidden="true">
+        <div className={`p-3 rounded-2xl bg-slate-950 border border-white/[0.05] ${categoryIcon} group-hover:bg-gradient-to-br group-hover:text-white group-hover:border-transparent group-hover:scale-110 transition-all duration-300`} aria-hidden="true">
           <IconComponent className="w-5 h-5" />
         </div>
       </div>
@@ -71,8 +99,8 @@ export default function ServiceCard({ category, badge, description, iconName, it
       <ul className="space-y-3 mb-8 flex-grow">
         {items.map((item, idx) => (
           <li key={idx} className="flex items-start gap-3 group/item">
-            <CheckCircle2 className="w-4 h-4 text-orange-500 mt-0.5 flex-shrink-0 group-hover/item:scale-110 transition-transform duration-250" aria-hidden="true" />
-            <span className="text-sm text-slate-300 group-hover/item:text-slate-100 transition-colors duration-250">
+            <CheckCircle2 className={`w-4 h-4 ${categoryListCheck} mt-0.5 flex-shrink-0 group-hover/item:scale-110 transition-transform duration-250`} aria-hidden="true" />
+            <span className="text-sm text-slate-350 group-hover/item:text-slate-100 transition-colors duration-250">
               {item}
             </span>
           </li>
@@ -84,7 +112,7 @@ export default function ServiceCard({ category, badge, description, iconName, it
         href={whatsAppUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className="flex items-center justify-center gap-2.5 w-full py-4 rounded-2xl bg-slate-950 border border-slate-850 text-slate-200 hover:text-white font-bold shadow-lg group-hover:border-orange-500/20 hover:bg-gradient-to-r hover:from-orange-500/10 hover:to-amber-500/10 active:scale-95 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-orange-500"
+        className="flex items-center justify-center gap-2.5 w-full py-4 rounded-2xl bg-slate-950 border border-white/[0.05] text-slate-200 hover:text-white font-bold shadow-lg hover:border-orange-500/20 hover:bg-gradient-to-r hover:from-orange-500/10 hover:to-amber-500/10 active:scale-95 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-orange-500"
       >
         <MessageCircle className="w-5 h-5 text-emerald-400 group-hover:scale-110 transition-transform duration-300" aria-hidden="true" />
         WhatsApp Inquiry
