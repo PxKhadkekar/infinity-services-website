@@ -4,6 +4,7 @@ import { Phone, MessageCircle, Wrench, Shield, Zap } from 'lucide-react';
 import { config } from '../data/config';
 import Strands from './Strands';
 
+
 function MagneticButton({ children, className, href, target, rel, ...props }) {
   const ref = useRef(null);
   const [position, setPosition] = useState({ x: 0, y: 0 });
@@ -117,23 +118,23 @@ export default function Hero() {
       {/* Dynamic Background Gradients */}
       <div className="absolute top-0 inset-x-0 h-full w-full bg-[radial-gradient(circle_at_center,rgba(30,58,138,0.08)_0%,rgba(15,23,42,0.95)_70%)] pointer-events-none z-0"></div>
 
-      {/* WebGL Strands visual background theme - Thinner, slower, and highly subtle */}
+      {/* WebGL Strands visual background theme - Large, soft, ambient backdrop */}
       {!shouldReduceMotion && (
         <Strands
-          className="absolute inset-0 w-full h-full pointer-events-none z-0 opacity-15"
+          className="absolute inset-y-0 left-1/2 -translate-x-1/2 w-[75%] h-full pointer-events-none z-0 strands-ambient-mask opacity-15"
           colors={["#F97316", "#EAB308", "#3B82F6"]}
           count={3}
-          speed={0.2}
-          amplitude={0.35}
-          waviness={0.4}
-          thickness={0.4}
-          glow={1.2}
-          taper={3.0}
-          spread={1.3}
-          intensity={0.4}
-          saturation={1.2}
-          opacity={0.6}
-          scale={1.25}
+          speed={0.08}
+          amplitude={0.3}
+          waviness={0.2}
+          thickness={2.5}
+          glow={0.5}
+          taper={2.0}
+          spread={1.5}
+          intensity={0.15}
+          saturation={0.8}
+          opacity={0.3}
+          scale={3.5}
           glass={false}
         />
       )}

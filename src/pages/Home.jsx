@@ -9,8 +9,8 @@ import FloatingWhatsApp from '../components/FloatingWhatsApp';
 // Lazy load heavy sections
 const OurWork = lazy(() => import('../components/OurWork'));
 const Contact = lazy(() => import('../components/Contact'));
-const AvailableEquipment = lazy(() => import('../components/AvailableEquipment'));
 const InfiniteMarquee = lazy(() => import('../components/InfiniteMarquee'));
+const AvailableEquipment = lazy(() => import('../components/AvailableEquipment'));
 
 // Custom Loading Skeletons matching layouts to prevent CLS
 function MarqueeSkeleton() {
@@ -114,6 +114,7 @@ export default function Home() {
         <Suspense fallback={<MarqueeSkeleton />}>
           <InfiniteMarquee />
         </Suspense>
+
         <Suspense fallback={<OurWorkSkeleton />}>
           <OurWork />
         </Suspense>
